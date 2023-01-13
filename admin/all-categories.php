@@ -44,6 +44,11 @@ include('../middleware/adminMiddleware.php');
                                     </td>
                                     <td>
                                         <a href="edit-category.php?id=<?=$value['id'];?>" class="btn btn-primary">Edit</a>
+                                        <form action="code.php" method="post">
+                                            <input type="hidden" name="old_image" value="<?= $value['image']; ?>">
+                                            <input type="hidden" name="id" value="<?=$value['id'];?>">
+                                            <button type="submit" name="delete_category_btn" class="btn btn-danger">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 <?php

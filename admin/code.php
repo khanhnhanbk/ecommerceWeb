@@ -85,3 +85,22 @@ if (isset($_POST['new-cate-btn'])) {
         header('location:index.php');
     }
 }
+else if (isset($_POST['delete_category_btn']))
+{
+    $query = "DELETE FROM `categories` WHERE id = " . $_POST['id'];
+    $result = mysqli_query($conn, $query);
+    $target_dir = "../images/";
+    $old_image = $_POST['old_image'];
+
+    if ($result) {
+        if (file_exists($target_dir . $old_image)) {
+            unlink($target_dir . $old_image);
+        }
+        $_SESSION['success'] = "Delete successfully";
+        header('location: all-categories.php');
+
+    } else {
+        $_SESSION['success'] = "Something went wrong";
+        header('location:index.php');
+    }
+}
