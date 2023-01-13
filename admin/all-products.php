@@ -14,7 +14,7 @@ include('../middleware/adminMiddleware.php');
                     <!-- add product button -->
                     <a href="add-product.php" class="btn btn-primary float-end">Add new product</a>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="table-product">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center justify-content-center mb-0">
                             <thead>
@@ -26,6 +26,7 @@ include('../middleware/adminMiddleware.php');
                                     <th class="text-uppercase">Category</th>
                                     <th class="text-uppercase">Status</th>
                                     <th class="text-uppercase">Edit</th>
+                                    <th class="text-uppercase">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,11 +58,14 @@ include('../middleware/adminMiddleware.php');
                                             </td>
                                             <td>
                                                 <a href="edit-product.php?id=<?= $value['id']; ?>" class="btn btn-primary">Edit</a>
-                                                <form action="code.php" method="post">
+                                                <!-- <form action="code.php" method="post">
                                                     <input type="hidden" name="old_image" value="<?= $value['image']; ?>">
                                                     <input type="hidden" name="id" value="<?= $value['id']; ?>">
                                                     <button type="submit" name="delete_product_btn" class="btn btn-danger">Delete</button>
-                                                </form>
+                                                </form> -->
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btn-delete-product" value="<?= $value['id']; ?>">Delete</button>
                                             </td>
                                         </tr>
                                 <?php

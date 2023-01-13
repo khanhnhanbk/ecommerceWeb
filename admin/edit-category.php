@@ -66,7 +66,7 @@ include('../middleware/adminMiddleware.php');
                                         <input type="checkbox" class="" name="popular" id="popular" <?= $data['popular'] == 1 ? 'checked' : '' ?>>
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="submit" name="edit-cate-btn" class="btn btn-primary">Save</button>
+                                        <button type="submit" name="edit_category_btn" class="btn btn-primary">Save</button>
                                         <a href="all-categories.php" class="btn btn-primary">Go back</a>
                                     </div>
                                 </div>

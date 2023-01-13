@@ -1,4 +1,3 @@
-<!-- connect db -->
 <?php
 $host = "localhost";
 $username = "root";
@@ -11,5 +10,5 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 else {
-    // echo "Connected successfully";
+   
 }

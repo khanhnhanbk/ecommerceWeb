@@ -54,7 +54,7 @@ include('../middleware/adminMiddleware.php');
                                 <input type="checkbox" class="" name="popular" id="popular">
                             </div>
                             <div class="col-md-12">
-                                <button type="submit" name="new-cate-btn" class="btn btn-primary">Add</button>
+                                <button type="submit" name="add_category_btn" class="btn btn-primary">Add</button>
                             </div>
                         </div>
                     </form>

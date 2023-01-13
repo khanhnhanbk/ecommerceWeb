@@ -2,7 +2,7 @@
 session_start();
 require_once('../config/dbconfig.php');
 
-if (isset($_POST['new-cate-btn'])) { # process add category
+if (isset($_POST['add_category_btn'])) { # process add category
     # get data from form
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $slug = mysqli_real_escape_string($conn, $_POST['slug']);
@@ -14,7 +14,7 @@ if (isset($_POST['new-cate-btn'])) { # process add category
     $popular = isset($_POST['popular']) ? 1 : 0;
 
     // save image
-    $target_dir = "../images/";
+    $target_dir = "../images/categories/";
     $uploadOk = 1;
     $image = $_FILES['myImage']['name'];
     $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
@@ -27,12 +27,12 @@ if (isset($_POST['new-cate-btn'])) { # process add category
     if ($result) {
         move_uploaded_file($_FILES['myImage']['tmp_name'], $target_dir . $target_file);
         $_SESSION['success'] = "Category Added Successfully";
-        header('location:index.php');
+        header('location:all-categories.php');
     } else {
         $_SESSION['error'] = "Something went wrong";
-        header('location:index.php');
+        header('location:all-categories.php');
     }
-} else if (isset($_POST['edit-cate-btn'])) {
+} else if (isset($_POST['edit_category_btn'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $slug = mysqli_real_escape_string($conn, $_POST['slug']);
     $description = mysqli_real_escape_string($conn, $_POST['description']);
@@ -69,20 +69,22 @@ if (isset($_POST['new-cate-btn'])) { # process add category
         header('location:index.php');
     }
 } else if (isset($_POST['delete_category_btn'])) {
+    $category = mysqli_query($conn, "SELECT * FROM `categories` WHERE id = " . $_POST['id']);
+    $data = mysqli_fetch_assoc($category);
+    $target_dir = "../images/categories/";
+    $old_image = $data['image'];
+
+
     $query = "DELETE FROM `categories` WHERE id = " . $_POST['id'];
     $result = mysqli_query($conn, $query);
-    $target_dir = "../images/categories/";
-    $old_image = $_POST['old_image'];
 
     if ($result) {
         if (file_exists($target_dir . $old_image)) {
             unlink($target_dir . $old_image);
         }
-        $_SESSION['success'] = "Delete successfully";
-        header('location: all-categories.php');
+        echo 200;
     } else {
-        $_SESSION['success'] = "Something went wrong";
-        header('location: all-categories.php');
+        echo 500;
     }
 } else if (isset($_POST['add_product_btn'])) {
     $category_id = mysqli_real_escape_string($conn, $_POST['category']);
@@ -118,20 +120,23 @@ if (isset($_POST['new-cate-btn'])) { # process add category
         header('location:all-products.php');
     }
 } else if (isset($_POST['delete_product_btn'])) {
+    $product = mysqli_query($conn, "SELECT * FROM `products` WHERE id = " . $_POST['id']);
+
+    $data = mysqli_fetch_assoc($product);
+    $old_image = $data['image'];
+
+
     $query = "DELETE FROM `products` WHERE id = " . $_POST['id'];
     $result = mysqli_query($conn, $query);
     $target_dir = "../images/products/";
-    $old_image = $_POST['old_image'];
 
     if ($result) {
         if (file_exists($target_dir . $old_image)) {
             unlink($target_dir . $old_image);
         }
-        $_SESSION['success'] = "Delete successfully";
-        header('location: all-products.php');
+        echo 200;
     } else {
-        $_SESSION['success'] = "Something went wrong";
-        header('location: all-products.php');
+        echo 500;
     }
 } else if (isset($_POST['edit_product_btn'])) {
     $category_id = mysqli_real_escape_string($conn, $_POST['category']);
