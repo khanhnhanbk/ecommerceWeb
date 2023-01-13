@@ -42,7 +42,7 @@ include('../middleware/adminMiddleware.php');
                                         <input type="file" class="form-control" name="myImage" id="image" placeholder="upload image">
                                         <label class="form-label">Current image</label>
                                         <input type="hidden" name="old_image" value="<?= $data['image']; ?>">
-                                        <img src="../images/<?= $data['image']; ?>" alt="" height="50px">
+                                        <img src="../images/categories/<?= $data['image']; ?>" alt="" height="50px">
                                     </div>
                                     <div class="col-md-12">
                                         <label for="meta_description" class="form-label">Meta Description</label>
@@ -67,6 +67,7 @@ include('../middleware/adminMiddleware.php');
                                     </div>
                                     <div class="col-md-12">
                                         <button type="submit" name="edit-cate-btn" class="btn btn-primary">Save</button>
+                                        <a href="all-categories.php" class="btn btn-primary">Go back</a>
                                     </div>
                                 </div>
                             </form>

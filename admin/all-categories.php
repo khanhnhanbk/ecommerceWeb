@@ -37,7 +37,7 @@ include('../middleware/adminMiddleware.php');
                                         <p class="text-sm font-weight-bold mb-0"><?php echo $value['name']; ?></p>
                                     </td>
                                     <td>
-                                        <img src="../images/<?php echo $value['image'];?>" class="ms-2 avatar" alt="apple">
+                                        <img src="../images/categories/<?php echo $value['image'];?>" class="ms-2 avatar" alt="apple">
                                     </td>
                                     <td>
                                         <span class="text-xs font-weight-bold"><?php echo $value['status']; ?></span>

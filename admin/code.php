@@ -2,24 +2,16 @@
 session_start();
 require_once('../config/dbconfig.php');
 
-if (isset($_POST['new-cate-btn'])) {
-    print_r($_POST);
+if (isset($_POST['new-cate-btn'])) { # process add category
+    # get data from form
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $slug = mysqli_real_escape_string($conn, $_POST['slug']);
     $description = mysqli_real_escape_string($conn, $_POST['description']);
     $meta_description = mysqli_real_escape_string($conn, $_POST['meta_description']);
     $meta_title = mysqli_real_escape_string($conn, $_POST['meta_title']);
     $meta_keyword = mysqli_real_escape_string($conn, $_POST['meta_keyword']);
-    if (isset($_POST['status'])) {
-        $status = 1;
-    } else {
-        $status = 0;
-    }
-    if (isset($_POST['popular'])) {
-        $popular = 1;
-    } else {
-        $popular = 0;
-    }
+    $status = isset($_POST['status']) ? 1 : 0;
+    $popular = isset($_POST['popular']) ? 1 : 0;
 
     // save image
     $target_dir = "../images/";
@@ -29,7 +21,7 @@ if (isset($_POST['new-cate-btn'])) {
     $target_file = time() . '.' . $imageFileType;
 
 
-
+    # insert data to database
     $query = "INSERT INTO `categories`(`name`, `slug`, `description`, `image`, `meta_description`, `meta_title`, `meta_keyword`, `status`, `popular`) VALUES ('$name','$slug','$description','$target_file','$meta_description','$meta_title','$meta_keyword','$status','$popular')";
     $result = mysqli_query($conn, $query);
     if ($result) {
@@ -47,20 +39,12 @@ if (isset($_POST['new-cate-btn'])) {
     $meta_description = mysqli_real_escape_string($conn, $_POST['meta_description']);
     $meta_title = mysqli_real_escape_string($conn, $_POST['meta_title']);
     $meta_keyword = mysqli_real_escape_string($conn, $_POST['meta_keyword']);
-    if (isset($_POST['status'])) {
-        $status = 1;
-    } else {
-        $status = 0;
-    }
-    if (isset($_POST['popular'])) {
-        $popular = 1;
-    } else {
-        $popular = 0;
-    }
+    $status = isset($_POST['status']) ? 1 : 0;
+    $popular = isset($_POST['popular']) ? 1 : 0;
 
     // save image
     $old_image = $_POST['old_image'];
-    $target_dir = "../images/";
+    $target_dir = "../images/categories/";
     $uploadOk = 1;
     $image = $_FILES['myImage']['name'];
 
@@ -84,12 +68,10 @@ if (isset($_POST['new-cate-btn'])) {
         $_SESSION['success'] = "Something went wrong";
         header('location:index.php');
     }
-}
-else if (isset($_POST['delete_category_btn']))
-{
+} else if (isset($_POST['delete_category_btn'])) {
     $query = "DELETE FROM `categories` WHERE id = " . $_POST['id'];
     $result = mysqli_query($conn, $query);
-    $target_dir = "../images/";
+    $target_dir = "../images/categories/";
     $old_image = $_POST['old_image'];
 
     if ($result) {
@@ -98,9 +80,102 @@ else if (isset($_POST['delete_category_btn']))
         }
         $_SESSION['success'] = "Delete successfully";
         header('location: all-categories.php');
-
     } else {
         $_SESSION['success'] = "Something went wrong";
-        header('location:index.php');
+        header('location: all-categories.php');
+    }
+} else if (isset($_POST['add_product_btn'])) {
+    $category_id = mysqli_real_escape_string($conn, $_POST['category']);
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $slug = mysqli_real_escape_string($conn, $_POST['slug']);
+    $small_description = mysqli_real_escape_string($conn, $_POST['small_description']);
+    $description = mysqli_real_escape_string($conn, $_POST['description']);
+    $meta_description = mysqli_real_escape_string($conn, $_POST['meta_description']);
+    $meta_title = mysqli_real_escape_string($conn, $_POST['meta_title']);
+    $meta_keyword = mysqli_real_escape_string($conn, $_POST['meta_keywords']);
+    $original_price = mysqli_real_escape_string($conn, $_POST['original_price']);
+    $selling_price = mysqli_real_escape_string($conn, $_POST['selling_price']);
+    $qty = mysqli_real_escape_string($conn, $_POST['qty']);
+    $status = isset($_POST['status']) ? 1 : 0;
+    $trending = isset($_POST['trending']) ? 1 : 0;
+
+    // save image
+    $target_dir = "../images/products/";
+    $uploadOk = 1;
+    $image = $_FILES['image']['name'];
+    $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+    $target_file = time() . '.' . $imageFileType;
+
+    # insert data to database
+    $query = "INSERT INTO `products`(`category_id`, `name`, `slug`, `small_description`, `description`, `meta_description`, `meta_title`, `meta_keywords`, `original_price`, `selling_price`, `qty`, `image`, `status`, `trending`) VALUES ('$category_id','$name','$slug','$small_description','$description','$meta_description','$meta_title','$meta_keyword','$original_price','$selling_price','$qty','$target_file','$status','$trending')";
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        move_uploaded_file($_FILES['image']['tmp_name'], $target_dir . $target_file);
+        $_SESSION['success'] = "Product Added Successfully";
+        header('location:all-products.php');
+    } else {
+        $_SESSION['error'] = "Something went wrong";
+        header('location:all-products.php');
+    }
+} else if (isset($_POST['delete_product_btn'])) {
+    $query = "DELETE FROM `products` WHERE id = " . $_POST['id'];
+    $result = mysqli_query($conn, $query);
+    $target_dir = "../images/products/";
+    $old_image = $_POST['old_image'];
+
+    if ($result) {
+        if (file_exists($target_dir . $old_image)) {
+            unlink($target_dir . $old_image);
+        }
+        $_SESSION['success'] = "Delete successfully";
+        header('location: all-products.php');
+    } else {
+        $_SESSION['success'] = "Something went wrong";
+        header('location: all-products.php');
+    }
+} else if (isset($_POST['edit_product_btn'])) {
+    $category_id = mysqli_real_escape_string($conn, $_POST['category']);
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $slug = mysqli_real_escape_string($conn, $_POST['slug']);
+    $small_description = mysqli_real_escape_string($conn, $_POST['small_description']);
+    $description = mysqli_real_escape_string($conn, $_POST['description']);
+    $meta_description = mysqli_real_escape_string($conn, $_POST['meta_description']);
+    $meta_title = mysqli_real_escape_string($conn, $_POST['meta_title']);
+    $meta_keyword = mysqli_real_escape_string($conn, $_POST['meta_keywords']);
+    $original_price = mysqli_real_escape_string($conn, $_POST['original_price']);
+    $selling_price = mysqli_real_escape_string($conn, $_POST['selling_price']);
+    $qty = mysqli_real_escape_string($conn, $_POST['qty']);
+    $status = isset($_POST['status']) ? 1 : 0;
+    $trending = isset($_POST['trending']) ? 1 : 0;
+
+    // save image
+    $old_image = $_POST['old_image'];
+    $target_dir = "../images/products/";
+    $uploadOk = 1;
+    $image = $_FILES['image']['name'];
+
+    if ($image == '') {
+        $target_file = $old_image;
+    } else {
+        $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+        $target_file = time() . '.' . $imageFileType;
+    }
+
+    $query = "UPDATE `products` SET `category_id`='$category_id',`name`='$name',`slug`='$slug',`small_description`='$small_description',`description`='$description',`meta_description`='$meta_description',`meta_title`='$meta_title',`meta_keywords`='$meta_keyword',`original_price`='$original_price',`selling_price`='$selling_price',`qty`='$qty',`image`='$target_file',`status`='$status',`trending`='$trending' WHERE id = " . $_POST['id'];
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if ($image != '') {
+            if (file_exists($target_dir . $old_image)) {
+                unlink($target_dir . $old_image);
+            }
+            move_uploaded_file($_FILES['image']['tmp_name'], $target_dir . $target_file);
+        }
+
+        $_SESSION['success'] = "Product Updated Successfully";
+        header('location:edit-product.php' . '?id=' . $_POST['id']);
+    } else {
+        $_SESSION['error'] = "Something went wrong";
+        header('location:edit-product.php' . '?id=' . $_POST['id']);
     }
 }
