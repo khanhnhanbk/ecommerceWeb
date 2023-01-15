@@ -36,3 +36,11 @@ function getProduct($category_id)
     $result = mysqli_query($conn, $query);
     return $result;
 }
+
+function getCart($user_id)
+{
+    global $conn;
+    $query = "SELECT * FROM carts WHERE user_id = $user_id";
+    $result = mysqli_query($conn, $query);
+    return $result;
+}

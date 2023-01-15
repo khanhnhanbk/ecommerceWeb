@@ -14,6 +14,12 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="category.php">Categories</a>
+        </li> 
+        <li class="nav-item">
+
+          <a class="nav-link" href="cart.php">
+          <i class="fa fa-cart"></i>  
+          Go to cart</a>
         </li>
 
         <?php if (isset($_SESSION['auth']) && $_SESSION['auth'] == true) { ?>

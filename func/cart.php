@@ -34,6 +34,39 @@ if (isset($_SESSION['auth']))
       echo 500;
     }
    }
+   if ($scope == "update")
+   {
+    $product_id = $_POST['product_id'];
+    $quantity = $_POST['qty'];
+    $user_id = $_SESSION['auth_user']['user_id'];
+
+    $update_cart_query = "UPDATE carts SET product_qty = '$quantity' WHERE product_id = '$product_id' AND user_id = '$user_id'";
+    $update_cart_query_run = mysqli_query($conn, $update_cart_query);
+    if ($update_cart_query_run)
+    {
+      echo 200;
+    }
+    else
+    {
+      echo 500;
+    }
+   }
+   if ($scope == "remove")
+   {
+    $product_id = $_POST['product_id'];
+    $user_id = $_SESSION['auth_user']['user_id'];
+
+    $remove_from_cart_query = "DELETE FROM carts WHERE product_id = '$product_id' AND user_id = '$user_id'";
+    $remove_from_cart_query_run = mysqli_query($conn, $remove_from_cart_query);
+    if ($remove_from_cart_query_run)
+    {
+      echo 200;
+    }
+    else
+    {
+      echo 500;
+    }
+  }
   }
 }
 else
