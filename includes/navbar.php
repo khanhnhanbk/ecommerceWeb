@@ -12,11 +12,15 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="category.php">Categories</a>
+        </li>
 
         <?php if (isset($_SESSION['auth']) && $_SESSION['auth'] == true) { ?>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           
               <?= $_SESSION['auth_user']['name'] ?>
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

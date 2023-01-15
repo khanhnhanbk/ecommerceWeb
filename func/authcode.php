@@ -62,11 +62,12 @@ else if (isset($_POST['login-btn']))
             $row = mysqli_fetch_assoc($password_query_run);
             $name = $row['name'];
             $role_as = $row['role_as'];
-
+            $id = $row['id'];
             $_SESSION['auth_user'] =
             ['name' => $name,
             'email' => $email,
-            'role_as' => $role_as    
+            'role_as' => $role_as,
+            'user_id' => $id
         ];
 
         if ($role_as == 1)

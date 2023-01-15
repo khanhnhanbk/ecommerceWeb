@@ -1,6 +1,6 @@
 <?php 
-include('includes/header.php');
-include('../middleware/adminMiddleware.php');
+require_once('includes/header.php');
+require_once('../middleware/adminMiddleware.php');
 ?>
 
 
