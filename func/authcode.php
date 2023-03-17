@@ -19,8 +19,6 @@ if (isset($_POST['regis_btn']))
         if (mysqli_num_rows($email_query_run) > 0)
         {
             redirect('../register.php', 'Email Already Exists. Please Try Another Email');}
-       
-
 
         $query = "INSERT INTO users (name, email, password, phone) VALUES ('$name', '$email', '$password', '$phone')";
         $query_run = mysqli_query($conn, $query);

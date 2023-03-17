@@ -8,6 +8,5 @@ if (isset($_SESSION['auth'])) {
         return;
     }
 } else {
-   redirect("../login.php", "Please login to access this page");
+    redirect("../login.php", "Please login to access this page");
 }
-?>
